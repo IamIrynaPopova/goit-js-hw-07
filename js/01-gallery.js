@@ -1,38 +1,48 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 console.log(galleryItems);
 
-
 const galleryEl = document.querySelector(".gallery");
-console.log(galleryEl);
 
-const createGalleryImages = galleryItems
-  .map(
-    (item) => `<div class="gallery__item"> 
-    <a class="gallery__link" href=${item.original}>
+function createGalleryImages(galleryItems) {
+  return galleryItems
+    .map(
+      ({ original, preview, description }) => `<div class="gallery__item"> 
+    <a class="gallery__link" href=${original}>
     <img
       class="gallery__image"
-      src=${item.preview}
-      data-source=${item.original}
-      alt='${item.description}'
+      src=${preview}
+      data-source=${original}
+      alt='${description}'
     />
     </a>
     </div>`
-  )
-  .join("");
+    )
+    .join("");
+}
+const createGallery = createGalleryImages(galleryItems);
+galleryEl.innerHTML = createGallery;
+galleryEl.addEventListener("click", handleImageClick);
 
-galleryEl.innerHTML = createGalleryImages;
 
+function handleImageClick(event) {
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+  event.preventDefault();
+  const modal = basicLightbox.create(`
+    <div class="modal">
+        <img src=${event.target.dataset.source} 
+        />   
+    </div>
+`);
+  modal.show();
 
+  const modalEl = document.querySelector(".modal");
+  modalEl.addEventListener("click", closeImage);
 
-// function--------------------
-const getOriginalImage = (event) => {
-        if (event.target.nodeName !== "IMG") {
-                return;
-        }
-        const galleryImage = document.querySelector(".gallery__image");
-        const sourceImageOriginal = galleryImage.dataset.source;
-        return sourceImageOriginal;
-};
+  function closeImage() {
+  modal.close();         
+  };
+}
 
-galleryEl.addEventListener("click", getOriginalImage);
