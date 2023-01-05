@@ -21,6 +21,7 @@ function createGalleryImages(galleryItems) {
     .join("");
 }
 const createGallery = createGalleryImages(galleryItems);
+
 galleryEl.innerHTML = createGallery;
 galleryEl.addEventListener("click", handleImageClick);
 
