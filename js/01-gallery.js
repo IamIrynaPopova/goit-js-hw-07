@@ -31,18 +31,9 @@ function handleImageClick(event) {
   }
   event.preventDefault();
   const modal = basicLightbox.create(`
-    <div class="modal">
-        <img src=${event.target.dataset.source} 
+          <img width="1140" src=${event.target.dataset.source} 
         />   
-    </div>
-`);
+    `);
   modal.show();
-
-  const modalEl = document.querySelector(".modal");
-  modalEl.addEventListener("click", closeImage);
-
-  function closeImage() {
-  modal.close();         
-  };
 }
 
